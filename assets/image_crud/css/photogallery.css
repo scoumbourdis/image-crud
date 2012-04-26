@@ -1,0 +1,43 @@
+.clear
+{
+	clear: both;	
+}
+ul.photos-crud
+{
+		padding:0px;
+		margin:0px;
+		list-style: none;		
+}
+ul.photos-crud li
+{
+		float:left;
+		padding:0px;
+		margin:0px;
+		list-style: none;
+}
+.photo-box
+{
+	margin:0px 10px 10px 0px;
+	border: 1px solid #CCC;
+	padding:5px;
+	background: #fff;
+}
+.delete-box
+{
+	margin: 5px 0px 0px 0px;
+	text-align: center;
+}
+.delete-anchor
+{
+	padding:2px 0px 2px 20px;
+	margin:0px;
+	background: url(../images/icon-delete.gif) no-repeat;
+	height:18px;
+	line-height:18px;
+}
+.basic-image
+{
+	width: 90px;
+	height: 60px;
+	display:block;
+}
