@@ -31,9 +31,18 @@ ul.photos-crud li
 {
 	padding:2px 0px 2px 20px;
 	margin:0px;
-	background: url(../images/icon-delete.gif) no-repeat;
+	background: url(../images/icon-delete.png) no-repeat;
 	height:18px;
 	line-height:18px;
+}
+a.delete-anchor
+{
+	color: #e9635b;
+	text-decoration:none;
+}
+a.delete-anchor:hover
+{
+	text-decoration:underline;
 }
 .basic-image
 {
