@@ -1,1 +1,8 @@
 v.0.5 BETA
+	Multiple selection of photos to upload the same time
+	Auto thumbnail croping
+	Auto croping for max size image (800px X 600px max)
+	Reordering the photos after the upload
+	Delete image
+	Auto renaming special characters
+	Adding a relation and automatically adding id from the url

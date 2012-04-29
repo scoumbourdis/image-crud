@@ -65,6 +65,13 @@ class Image_CRUD {
 		return $this;
 	}
 	
+	function set_url_field($url_field)
+	{
+		$this->url_field = $url_field;
+		
+		return $this;
+	}
+	
 	function set_image_path($image_path)
 	{
 		$this->image_path = $image_path;
