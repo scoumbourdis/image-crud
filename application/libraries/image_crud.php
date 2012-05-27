@@ -229,6 +229,10 @@ class Image_CRUD {
     	
     	foreach($results as $num => $row)
     	{
+			if (!file_exists($this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field})) {
+				$this->_create_thumbnail($this->image_path.'/'.$row->{$this->url_field}, $this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field});
+			}		
+		
     		$results[$num]->image_url = base_url().$this->image_path.'/'.$row->{$this->url_field};
     		$results[$num]->thumbnail_url = base_url().$this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field};
     		$results[$num]->delete_url = $this->_get_delete_url($row->{$this->primary_key});
