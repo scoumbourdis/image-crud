@@ -231,7 +231,7 @@ class Image_CRUD {
     	{
     		$results[$num]->image_url = base_url().$this->image_path.'/'.$row->{$this->url_field};
     		$results[$num]->thumbnail_url = base_url().$this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field};
-    		$results[$num]->delete_url = $this->_get_delete_url($row->id);
+    		$results[$num]->delete_url = $this->_get_delete_url($row->{$this->primary_key});
     	}
     	
     	return $results;
