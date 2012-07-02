@@ -1,4 +1,4 @@
-v.0.5
+v.0.5-dev
 	#3 - Generate thumbnails for existing images.
 	#2 - Allow different primary keys than "id".
 v.0.5 BETA
