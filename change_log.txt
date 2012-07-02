@@ -1,3 +1,6 @@
+v.0.5
+	#3 - Generate thumbnails for existing images.
+	#2 - Allow different primary keys than "id".
 v.0.5 BETA
 	Multiple selection of photos to upload the same time
 	Auto thumbnail croping
