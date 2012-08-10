@@ -25,7 +25,17 @@ ul.photos-crud li
 .delete-box
 {
 	margin: 5px 0px 0px 0px;
-	text-align: center;
+	float:left;
+	text-align:center;
+}
+.move-box
+{
+	cursor: move;
+	margin: 5px 10px 0px 0px;
+	background: url('../images/icon-move.png') #fff;
+	width:16px;
+	height:16px;
+	float:left;
 }
 .delete-anchor
 {
@@ -49,4 +59,16 @@ a.delete-anchor:hover
 	width: 90px;
 	height: 60px;
 	display:block;
+}
+.floatL
+{
+	float:left;
+}
+.floatR
+{
+	float:right;
+}
+.clear
+{
+	clear:both;
 }

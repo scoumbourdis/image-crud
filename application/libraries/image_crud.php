@@ -349,7 +349,8 @@ class Image_CRUD {
 						'photos' => $photos, 
 						'ajax_list_url' => $state_info->ajax_list_url,
 						'ordering_url' => $state_info->ordering_url,
-						'primary_key' => $this->primary_key
+						'primary_key' => $this->primary_key,
+						'has_priority_field' => $this->priority_field !== null ? true : false
 					));
 					
 					if($state_info->ajax === true)

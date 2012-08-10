@@ -2,27 +2,47 @@
 	$this->set_js('assets/image_crud/js/jquery-1.7.1.min.js');
 	$this->set_js('assets/image_crud/js/fileuploader.js');
 	$this->set_js('assets/image_crud/js/jquery-ui-1.8.13.custom.min.js');
+	$this->set_js('assets/image_crud/js//jquery.fancybox-1.3.4.pack.js');
+	$this->set_js('assets/image_crud/js/jquery.easing-1.3.pack.js');
+	$this->set_js('assets/image_crud/js/jquery.mousewheel-3.0.4.pack.js');
+	
 	$this->set_css('assets/image_crud/css/fileuploader.css');
 	$this->set_css('assets/image_crud/css/photogallery.css');
 	$this->set_css('assets/image_crud/css/ui/jquery-ui-1.8.13.custom.css');
+	$this->set_css('assets/image_crud/css/jquery.fancybox-1.3.4.css');
 ?>
 <script type='text/javascript'>
 $(function(){
-    createUploader();  
+    createUploader();
+    loadFancybox();
 });
+function loadFancybox()
+{
+	$('.fancybox').fancybox({
+		'transitionIn'	:	'elastic',
+		'transitionOut'	:	'elastic',
+		'speedIn'		:	600, 
+		'speedOut'		:	200, 
+		'overlayShow'	:	false
+	});	
+}
+function loadPhotoGallery(){
+	$.ajax({
+		url: '<?=$ajax_list_url?>',
+		dataType: 'text',
+		success: function(data){
+			$('#ajax-list').html(data);
+			loadFancybox();
+		}
+	});
+}
 function createUploader(){            
     var uploader = new qq.FileUploader({
         element: document.getElementById('file-uploader-demo1'),
         action: '<?=$upload_url?>',
         debug: true,
         onComplete: function(id, fileName, responseJSON){
-			$.ajax({
-				url: '<?=$ajax_list_url?>',
-				dataType: 'text',
-				success: function(data){
-					$('#ajax-list').html(data);
-				}
-			});
+        	loadPhotoGallery();
         }
     });           
 }
@@ -38,22 +58,23 @@ function createUploader(){
 					$.ajax({
 						url:$(this).attr('href'),
 						success: function(){
-							$.ajax({
-								url: '<?=$ajax_list_url?>',
-								dataType: 'text',
-								success: function(data){
-									$('#ajax-list').html(data);
-								}
-							});
+							loadPhotoGallery();
 						}
 					});
 				}
 				return false;
 			});
-
-    		$(".photos-crud").sortable({ opacity: 0.6, cursor: 'move', revert: true,  update: function() {
-    			var order = $(this).sortable("serialize");
-	    			$.post("<?=$ordering_url?>", order, function(theResponse){});
+			$(".fancybox img").mousedown(function(){
+				return false;
+			});
+    		$(".photos-crud").sortable({
+        		handle: '.move-box', 
+        		opacity: 0.6, 
+        		cursor: 'move', 
+        		revert: true,  
+        		update: function() {
+    				var order = $(this).sortable("serialize");
+	    				$.post("<?=$ordering_url?>", order, function(theResponse){});
     			}									  
     		});			
 		});
@@ -62,8 +83,10 @@ function createUploader(){
 	<?php foreach($photos as $photo){?>
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
-					<a href='<?=$photo->image_url?>' target='_blank'><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
 					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor'>Delete</a></div>
+					<div class="clear"></div>
 				</div>
 			</li> 
 	<?php }?>
