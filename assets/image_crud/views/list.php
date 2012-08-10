@@ -33,7 +33,22 @@ function createUploader(){
 	<script type='text/javascript'>
 		$(function(){
 			$('.delete-anchor').click(function(){
-				return confirm('Are you sure that you want to delete this image?');
+				if(confirm('Are you sure that you want to delete this image?'))
+				{
+					$.ajax({
+						url:$(this).attr('href'),
+						success: function(){
+							$.ajax({
+								url: '<?=$ajax_list_url?>',
+								dataType: 'text',
+								success: function(data){
+									$('#ajax-list').html(data);
+								}
+							});
+						}
+					});
+				}
+				return false;
 			});
 
     		$(".photos-crud").sortable({ opacity: 0.6, cursor: 'move', revert: true,  update: function() {

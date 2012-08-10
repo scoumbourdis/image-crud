@@ -401,7 +401,7 @@ class Image_CRUD {
 * http://www.opensource.org/licenses/MIT
 */
 
-class UploadHandler
+class ImageUploadHandler
 {
 	private $options;
 
