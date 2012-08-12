@@ -47,7 +47,9 @@ function createUploader(){
     });           
 }
 </script>
-<div id="file-uploader-demo1"></div>
+<div id="file-uploader-demo1" class="floatL upload-button-container"></div>
+<div class="file-upload-messages"></div>
+<div class="clear"></div>
 <div id='ajax-list'>
 	<?php if(!empty($photos)){?>
 	<script type='text/javascript'>

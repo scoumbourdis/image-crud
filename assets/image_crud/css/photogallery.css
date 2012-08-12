@@ -89,3 +89,12 @@ a.delete-anchor:hover
 	resize: none;
 	overflow:hidden;
 }
+.file-upload-messages
+{
+	font-weight:bold;
+	padding-top:9px;
+}
+.upload-button-container
+{
+	margin-right:15px;
+}
