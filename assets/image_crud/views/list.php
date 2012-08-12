@@ -76,16 +76,29 @@ function createUploader(){
     				var order = $(this).sortable("serialize");
 	    				$.post("<?=$ordering_url?>", order, function(theResponse){});
     			}									  
-    		});			
+    		});
+    		$('.ic-title-field').bind({
+    			  click: function() {
+    				$(this).css('resize','both');
+    			    $(this).css('overflow','auto');
+    			    $(this).animate({height:80},600);
+    			  },
+    			  blur: function() {
+      			    $(this).css('resize','none');
+      			  	$(this).css('overflow','hidden');
+      			  	$(this).animate({height:20},600);
+    			  }
+    		});
 		});
 	</script>
 	<ul class='photos-crud'>
-	<?php foreach($photos as $photo){?>
+	<?php foreach($photos as $photo_num => $photo){?>
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
-					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<?php if($title_field !== null){ ?><textarea class="ic-title-field" tabindex="<?php echo $photo_num + 1; ?>"></textarea><div class="clear"></div><?php }?>
 					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
-					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor'>Delete</a></div>
+					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor' tabindex="-1">Delete</a></div>
 					<div class="clear"></div>
 				</div>
 			</li> 

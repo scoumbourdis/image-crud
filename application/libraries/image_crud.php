@@ -12,6 +12,7 @@ class Image_CRUD {
 	protected $table_name = null;
 	protected $priority_field = null;
 	protected $url_field = 'url';
+	protected $title_field = null;
 	protected $relation_field = null;
 	protected $subject = 'Record';
 	protected $image_path = '';
@@ -71,6 +72,13 @@ class Image_CRUD {
 		
 		return $this;
 	}
+	
+	function set_title_field($title_field)
+	{
+		$this->title_field = $title_field;
+	
+		return $this;
+	}	
 	
 	function set_image_path($image_path)
 	{
@@ -167,11 +175,11 @@ class Image_CRUD {
         stream_copy_to_stream($temp, $target);
         fclose($target);
 
-        /* Resizing to 800 x 600 if its required */
+        /* Resizing to 1024 x 768 if its required */
         	list($width, $height) = getimagesize($path);
-        	if($width > 800 || $height > 600)
+        	if($width > 1024 || $height > 768)
         	{
-        		$this->image_moo->load($path)->resize(800,600)->save($path,true);
+        		$this->image_moo->load($path)->resize(1024,768)->save($path,true);
         	}
         /* ------------------------------------- */
         
@@ -350,6 +358,7 @@ class Image_CRUD {
 						'ajax_list_url' => $state_info->ajax_list_url,
 						'ordering_url' => $state_info->ordering_url,
 						'primary_key' => $this->primary_key,
+						'title_field' => $this->title_field,
 						'has_priority_field' => $this->priority_field !== null ? true : false
 					));
 					

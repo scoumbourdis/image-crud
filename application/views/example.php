@@ -28,9 +28,10 @@ a:hover
 </head>
 <body>
 	<div>
-		<a href='<?php echo site_url('images_examples/example1')?>'>Example 1</a> |
-		<a href='<?php echo site_url('images_examples/example2')?>'>Example 2</a> |
-		<a href='<?php echo site_url('images_examples/example3/22')?>'>Example 3</a>
+		<a href='<?php echo site_url('images_examples/example1')?>'>Example 1 - Simple</a> |
+		<a href='<?php echo site_url('images_examples/example2')?>'>Example 2 - Ordering</a> |
+		<a href='<?php echo site_url('images_examples/example3/22')?>'>Example 3 - With group id</a> |
+		<a href='<?php echo site_url('images_examples/example4')?>'>Example 4 - Images with title</a>
 	</div>
 	<div style='height:20px;'></div>  
     <div>

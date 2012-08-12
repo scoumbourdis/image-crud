@@ -1,7 +1,3 @@
-.clear
-{
-	clear: both;	
-}
 ul.photos-crud
 {
 		padding:0px;
@@ -60,6 +56,10 @@ a.delete-anchor:hover
 	height: 60px;
 	display:block;
 }
+.photo-box a img
+{
+	border: none;
+}
 .floatL
 {
 	float:left;
@@ -71,4 +71,21 @@ a.delete-anchor:hover
 .clear
 {
 	clear:both;
+}
+.photo-box input[type=text],.photo-box textarea,.photo-box select{display:inline-block;line-height:18px;color:#444;border:1px solid #ccc;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+.photo-box input[type=text],.photo-box select,.photo-box textarea{font-size:100%;margin:0;vertical-align:baseline;*vertical-align:middle;}
+.photo-box input[type=text]{line-height:normal;*overflow:visible;}
+.photo-box input[type=text],.photo-box select,.photo-box textarea{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;line-height:normal;}
+.photo-box input[type=text],.photo-box textarea{-webkit-transition:border linear 0.2s,box-shadow linear 0.2s;-moz-transition:border linear 0.2s,box-shadow linear 0.2s;-ms-transition:border linear 0.2s,box-shadow linear 0.2s;-o-transition:border linear 0.2s,box-shadow linear 0.2s;transition:border linear 0.2s,box-shadow linear 0.2s;-webkit-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);-moz-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1);}
+.photo-box input[type=text]:focus,.photo-box textarea:focus{outline:0;border-color:rgba(82, 168, 236, 0.8);-webkit-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);-moz-box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.1),0 0 8px rgba(82, 168, 236, 0.6);}
+
+.ic-title-field
+{
+	width:90px;
+	margin-top:7px !important;
+	margin-bottom:3px !important;
+	border: 1px solid #ddd;
+	height: 20px;
+	resize: none;
+	overflow:hidden;
 }

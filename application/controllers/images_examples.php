@@ -75,15 +75,15 @@ class Images_examples extends CI_Controller {
 		$this->load->library('Image_CRUD');
 		$image_crud = new Image_CRUD();
 	
-		$image_crud->set_primary_key_field('id');
+		$image_crud->set_primary_key_field('image_id');
 		$image_crud->set_url_field('url');
-		$image_crud->set_table('example_3')
-		->set_relation_field('category_id')
+		$image_crud->set_title_field('title');
+		$image_crud->set_table('example_2')
 		->set_ordering_field('priority')
 		->set_image_path('assets/uploads');
-	
+			
 		$output = $image_crud->render();
 	
 		$this->_example_output($output);
-	}	
+	}
 }
