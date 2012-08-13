@@ -9,7 +9,9 @@ class Images_examples extends CI_Controller {
 		/* Standard Libraries */
 		$this->load->database();
 		$this->load->helper('url');
-		/* ------------------ */	
+		/* ------------------ */
+		
+		sleep(1);
 	}
 	
 	function _example_output($output = null)

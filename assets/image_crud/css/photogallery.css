@@ -89,7 +89,7 @@ a.delete-anchor:hover
 	resize: none;
 	overflow:hidden;
 }
-.file-upload-messages
+.file-upload-messages-container
 {
 	font-weight:bold;
 	padding-top:9px;
@@ -97,4 +97,16 @@ a.delete-anchor:hover
 .upload-button-container
 {
 	margin-right:15px;
+}
+.hidden
+{
+	display:none;
+}
+.message-loading
+{
+	background: url('../images/loading.gif') no-repeat;
+	width: 16px;
+	height: 16px;
+	float:left;
+	margin-right:5px;
 }

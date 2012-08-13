@@ -30,6 +30,16 @@ function loadPhotoGallery(){
 	$.ajax({
 		url: '<?=$ajax_list_url?>',
 		dataType: 'text',
+		beforeSend: function()
+		{
+			$('.file-upload-messages-container:first').show();
+			$('.file-upload-message').html('Loading...');
+		},
+		complete: function()
+		{
+			$('.file-upload-messages-container').hide();
+			$('.file-upload-message').html('');
+		},
 		success: function(data){
 			$('#ajax-list').html(data);
 			loadFancybox();
@@ -46,9 +56,31 @@ function createUploader(){
         }
     });           
 }
+function saveTitle(data_id, data_title)
+{
+	  	$.ajax({
+			url: '<?php echo $insert_title_url; ?>',
+			type: 'post',
+			data: {primary_key: data_id, value: data_title},
+			beforeSend: function()
+			{
+				$('.file-upload-messages-container:first').show();
+				$('.file-upload-message').html('Saving data...');
+			},
+			complete: function()
+			{
+				$('.file-upload-messages-container').hide();
+				$('.file-upload-message').html('');
+			}
+			});
+}
 </script>
 <div id="file-uploader-demo1" class="floatL upload-button-container"></div>
-<div class="file-upload-messages"></div>
+<div class="file-upload-messages-container hidden">
+	<div class="message-loading"></div>
+	<div class="file-upload-message"></div>
+	<div class="clear"></div>
+</div>
 <div class="clear"></div>
 <div id='ajax-list'>
 	<?php if(!empty($photos)){?>
@@ -59,6 +91,11 @@ function createUploader(){
 				{
 					$.ajax({
 						url:$(this).attr('href'),
+						beforeSend: function()
+						{
+							$('.file-upload-messages-container:first').show();
+							$('.file-upload-message').html('Deleting, please wait...');
+						},				
 						success: function(){
 							loadPhotoGallery();
 						}
@@ -79,6 +116,15 @@ function createUploader(){
 	    				$.post("<?=$ordering_url?>", order, function(theResponse){});
     			}									  
     		});
+    		$('.ic-title-field').keyup(function(e) {
+    			if(e.keyCode == 13) {
+					var data_id = $(this).attr('data-id');
+					var data_title = $(this).val();
+      			  	
+					saveTitle(data_id, data_title);
+    			}
+    		});
+    		
     		$('.ic-title-field').bind({
     			  click: function() {
     				$(this).css('resize','both');
@@ -89,6 +135,11 @@ function createUploader(){
       			    $(this).css('resize','none');
       			  	$(this).css('overflow','hidden');
       			  	$(this).animate({height:20},600);
+
+					var data_id = $(this).attr('data-id');
+					var data_title = $(this).val();
+      			  	
+					saveTitle(data_id, data_title);
     			  }
     		});
 		});
@@ -98,7 +149,9 @@ function createUploader(){
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
 					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
-					<?php if($title_field !== null){ ?><textarea class="ic-title-field" tabindex="<?php echo $photo_num + 1; ?>"></textarea><div class="clear"></div><?php }?>
+					<?php if($title_field !== null){ ?>
+					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>"><?php echo $photo->$title_field; ?></textarea>
+					<div class="clear"></div><?php }?>
 					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
 					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor' tabindex="-1">Delete</a></div>
 					<div class="clear"></div>

@@ -1,5 +1,5 @@
 v.0.5-dev
-	Adding title field.
+	Title functionality for each photo with quick edit.
 	#3 - Generate thumbnails for existing images.
 	#2 - Allow different primary keys than "id".
 v.0.5 BETA

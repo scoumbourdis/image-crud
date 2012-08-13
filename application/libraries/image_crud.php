@@ -195,6 +195,11 @@ class Image_CRUD {
 			$counter++;
 		}
     }    
+	
+    protected function _insert_title($primary_key, $value)
+    {
+		$this->ci->db->update($this->table_name, array($this->title_field => $value), array($this->primary_key => $primary_key));
+    }    
     
     protected function _insert_table($file_name, $relation_id = null)
     {
@@ -278,11 +283,14 @@ class Image_CRUD {
 			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file/'.$rsegments_array[3]);
 			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/'.$rsegments_array[3].'/ajax_list');
 			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
+			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
 			
 			$state = array( 'name' => 'list', 'upload_url' => $upload_url, 'relation_value' => $rsegments_array[3]);
 			$state['ajax'] = isset($rsegments_array[4]) && $rsegments_array[4] == 'ajax_list'  ? true : false;
 			$state['ajax_list_url'] = $ajax_list_url;
 			$state['ordering_url'] = $ordering_url;
+			$state['insert_title_url'] = $insert_title_url;
+			
 			
 			return (object)$state;
 		}
@@ -291,11 +299,13 @@ class Image_CRUD {
 			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file');
 			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ajax_list');
 			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
+			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
 			
 			$state = array( 'name' => 'list', 'upload_url' => $upload_url);
 			$state['ajax'] = isset($rsegments_array[3]) && $rsegments_array[3] == 'ajax_list'  ? true : false;
 			$state['ajax_list_url'] = $ajax_list_url;
 			$state['ordering_url'] = $ordering_url;
+			$state['insert_title_url'] = $insert_title_url;
 			
 			return (object)$state;
 		}
@@ -337,6 +347,11 @@ class Image_CRUD {
 			$state = array( 'name' => 'ordering');
 			return (object)$state;			
 		}
+		elseif(isset($rsegments_array[3]) && $rsegments_array[3] == 'insert_title')
+		{
+			$state = array( 'name' => 'insert_title');
+			return (object)$state;
+		}		
 	}    
     
 	function render()
@@ -354,6 +369,7 @@ class Image_CRUD {
 					$photos = isset($state_info->relation_value) ? $this->_get_photos($state_info->relation_value) : $this->_get_photos();
 					$this->_library_view('list.php',array(
 						'upload_url' => $state_info->upload_url, 
+						'insert_title_url' => $state_info->insert_title_url,
 						'photos' => $photos, 
 						'ajax_list_url' => $state_info->ajax_list_url,
 						'ordering_url' => $state_info->ordering_url,
@@ -391,6 +407,10 @@ class Image_CRUD {
 				case 'ordering':
 					$this->_changing_priority($_POST['photos']);
 				break;
+
+				case 'insert_title':
+					$this->_insert_title($_POST['primary_key'],$_POST['value']);
+				break;				
 			}
 		}
 		
