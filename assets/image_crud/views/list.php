@@ -150,7 +150,7 @@ function saveTitle(data_id, data_title)
 				<div class='photo-box'>
 					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
 					<?php if($title_field !== null){ ?>
-					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>"><?php echo $photo->$title_field; ?></textarea>
+					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>" autocomplete="off" ><?php echo $photo->$title_field; ?></textarea>
 					<div class="clear"></div><?php }?>
 					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
 					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor' tabindex="-1">Delete</a></div>
