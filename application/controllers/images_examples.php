@@ -10,8 +10,6 @@ class Images_examples extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('url');
 		/* ------------------ */
-		
-		sleep(1);
 	}
 	
 	function _example_output($output = null)
