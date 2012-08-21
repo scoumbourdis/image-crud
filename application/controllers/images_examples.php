@@ -10,7 +10,7 @@ class Images_examples extends CI_Controller {
 		$this->load->database();
 		/* ------------------ */
 		
-		$this->load->helper('url'); //Just for the examples, this is not required thought
+		$this->load->helper('url'); //Just for the examples, this is not required thought for the library
 		
 		$this->load->library('image_CRUD');
 	}
