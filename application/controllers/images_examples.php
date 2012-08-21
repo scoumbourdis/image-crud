@@ -8,8 +8,11 @@ class Images_examples extends CI_Controller {
 		
 		/* Standard Libraries */
 		$this->load->database();
-		$this->load->helper('url');
 		/* ------------------ */
+		
+		$this->load->helper('url'); //Just for the examples, this is not required thought
+		
+		$this->load->library('image_CRUD');
 	}
 	
 	function _example_output($output = null)
@@ -24,8 +27,7 @@ class Images_examples extends CI_Controller {
 	
 	function example1()
 	{
-		$this->load->library('Image_CRUD');
-		$image_crud = new Image_CRUD();
+		$image_crud = new image_CRUD();
 		
 		$image_crud->set_primary_key_field('id');
 		$image_crud->set_url_field('url');
@@ -39,8 +41,7 @@ class Images_examples extends CI_Controller {
 	
 	function example2()
 	{
-		$this->load->library('Image_CRUD');
-		$image_crud = new Image_CRUD();
+		$image_crud = new image_CRUD();
 	
 		$image_crud->set_primary_key_field('image_id');
 		$image_crud->set_url_field('url');
@@ -55,8 +56,7 @@ class Images_examples extends CI_Controller {
 
 	function example3()
 	{
-		$this->load->library('Image_CRUD');
-		$image_crud = new Image_CRUD();
+		$image_crud = new image_CRUD();
 	
 		$image_crud->set_primary_key_field('id');
 		$image_crud->set_url_field('url');
@@ -72,8 +72,7 @@ class Images_examples extends CI_Controller {
 
 	function example4()
 	{
-		$this->load->library('Image_CRUD');
-		$image_crud = new Image_CRUD();
+		$image_crud = new image_CRUD();
 	
 		$image_crud->set_primary_key_field('image_id');
 		$image_crud->set_url_field('url');

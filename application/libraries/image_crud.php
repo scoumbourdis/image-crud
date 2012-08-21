@@ -7,7 +7,7 @@
  * Copyright (c) 2012 John Skoumbourdis
  */
 
-class Image_CRUD {
+class image_CRUD {
 	
 	protected $table_name = null;
 	protected $priority_field = null;
@@ -357,6 +357,7 @@ class Image_CRUD {
 	function render()
 	{
 		$ci = &get_instance();
+		$ci->load->helper('url');
 		$ci->load->library('Image_moo');
 		$this->image_moo = new Image_moo();
 		
