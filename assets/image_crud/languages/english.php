@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lang['upload_button'] = 'Upload files';
+$lang['upload_button'] = 'Upload files here';
 $lang['upload-drop-area'] = 'Drop files here to upload';
 $lang['upload-cancel'] = 'Cancel';
 $lang['upload-failed'] = 'Failed';
