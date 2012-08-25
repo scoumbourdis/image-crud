@@ -1,4 +1,4 @@
-v.0.5-dev
+v.0.5
 	Multilingual functionality
 	Title functionality for each photo with quick edit.
 	#3 - Generate thumbnails for existing images.

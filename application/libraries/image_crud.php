@@ -310,31 +310,14 @@ class image_CRUD {
     	return $results;
     }
 
-    protected function _convert_greek_characters($str_i) {
-
-	  $g_c = array("α","ά","β","γ","δ","ε","έ","ζ","η","ή","θ","ι","ί","κ","λ","μ","ν","ξ","ο","ό","π","ρ","σ","ς","τ","υ","ύ","φ","χ","ψ","ω","ώ","Α","Ά","Β","Γ","Δ","Ε","Έ","Ζ","Η","Ή","Θ","Ι","Ί","Κ","Λ","Μ","Ν","Ξ","Ο","Ό","Π","Ρ","Σ","Τ","Υ","Ύ","Φ","Χ","Ψ","Ω","Ώ");
-	  $e_c = array("a","a","b","g","d","e","e","z","i","i","th","i","i","k","l","m","n","ks","o","o","p","r","s","s","t","u","u","f","x","y","w","w","A","A","B","G","D","E","E","Z","I","I","TH","I","I","K","L","M","N","KS","O","O","P","R","S","T","Y","Y","F","X","Y","W","W");
-
-	  for($i=0;$i<count($g_c);$i++){
-	      $str_i = str_replace($g_c[$i], $e_c[$i], $str_i);
-	  }
-
-	  return $str_i;
-	}
-
-	// modified convert_accented_characters() function from text_helper
 	protected function _convert_foreign_characters($str_i)
 	{
-		//First of all convert greek characters as codeigniter doesn't support it yet.
-		$str_i = $this->_convert_greek_characters($str_i);
-		
-		//Next convert all the other kind of foreign characters
-		include(APPPATH.'config/foreign_chars.php');
-		if ( ! isset($foreign_characters))
+		include('assets/image_crud/config/translit_chars.php');
+		if ( ! isset($translit_characters))
 		{
 			return $str_i;
 		}
-		return preg_replace(array_keys($foreign_characters), array_values($foreign_characters), $str_i);
+		return preg_replace(array_keys($translit_characters), array_values($translit_characters), $str_i);
 	}
 
 	protected function _create_thumbnail($image_path, $thumbnail_path)
