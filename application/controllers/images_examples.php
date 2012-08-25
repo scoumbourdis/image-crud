@@ -43,7 +43,7 @@ class Images_examples extends CI_Controller {
 	{
 		$image_crud = new image_CRUD();
 	
-		$image_crud->set_primary_key_field('image_id');
+		$image_crud->set_primary_key_field('id');
 		$image_crud->set_url_field('url');
 		$image_crud->set_table('example_2')
 		->set_ordering_field('priority')
@@ -74,10 +74,10 @@ class Images_examples extends CI_Controller {
 	{
 		$image_crud = new image_CRUD();
 	
-		$image_crud->set_primary_key_field('image_id');
+		$image_crud->set_primary_key_field('id');
 		$image_crud->set_url_field('url');
 		$image_crud->set_title_field('title');
-		$image_crud->set_table('example_2')
+		$image_crud->set_table('example_4')
 		->set_ordering_field('priority')
 		->set_image_path('assets/uploads');
 			
