@@ -28,7 +28,7 @@ function loadFancybox()
 }
 function loadPhotoGallery(){
 	$.ajax({
-		url: '<?=$ajax_list_url?>',
+		url: '<?php echo $ajax_list_url?>',
 		dataType: 'text',
 		beforeSend: function()
 		{
@@ -61,7 +61,7 @@ function createUploader(){
 					'<a class="qq-upload-cancel" href="#"><?php echo $this->l("upload-cancel");?></a>' +
 					'<span class="qq-upload-failed-text"><?php echo $this->l("upload-failed");?></span>' +
 					'</li>',
-				action: '<?=$upload_url?>',
+				action: '<?php echo $upload_url?>',
 				debug: true,
 				onComplete: function(id, fileName, responseJSON){
         	loadPhotoGallery();
@@ -125,7 +125,7 @@ function saveTitle(data_id, data_title)
         		revert: true,
         		update: function() {
     				var order = $(this).sortable("serialize");
-	    				$.post("<?=$ordering_url?>", order, function(theResponse){});
+	    				$.post("<?php echo $ordering_url?>", order, function(theResponse){});
     			}
     		});
     		$('.ic-title-field').keyup(function(e) {
@@ -160,12 +160,12 @@ function saveTitle(data_id, data_title)
 	<?php foreach($photos as $photo_num => $photo){?>
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
-					<a href='<?=$photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?=$photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<a href='<?php echo $photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?php echo $photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
 					<?php if($title_field !== null){ ?>
 					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>" autocomplete="off" ><?php echo $photo->$title_field; ?></textarea>
 					<div class="clear"></div><?php }?>
 					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
-					<div class='delete-box'><a href='<?=$photo->delete_url?>' class='delete-anchor' tabindex="-1"><?php echo $this->l('list_delete');?></a></div>
+					<div class='delete-box'><a href='<?php echo $photo->delete_url?>' class='delete-anchor' tabindex="-1"><?php echo $this->l('list_delete');?></a></div>
 					<div class="clear"></div>
 				</div>
 			</li>
