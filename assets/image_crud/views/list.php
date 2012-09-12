@@ -165,7 +165,9 @@ function saveTitle(data_id, data_title)
 					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>" autocomplete="off" ><?php echo $photo->$title_field; ?></textarea>
 					<div class="clear"></div><?php }?>
 					<?php if($has_priority_field){?><div class="move-box"></div><?php }?>
-					<div class='delete-box'><a href='<?php echo $photo->delete_url?>' class='delete-anchor' tabindex="-1"><?php echo $this->l('list_delete');?></a></div>
+					<?php if(!$unset_delete){?><div class='delete-box'>
+						<a href='<?php echo $photo->delete_url?>' class='delete-anchor' tabindex="-1"><?php echo $this->l('list_delete');?></a>
+					</div><?php }?>
 					<div class="clear"></div>
 				</div>
 			</li>

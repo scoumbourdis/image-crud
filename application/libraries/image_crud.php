@@ -22,6 +22,9 @@ class image_CRUD {
 	protected $views_as_string = '';
 	protected $css_files = array();
 	protected $js_files = array();
+	
+	/* Unsetters */
+	protected $unset_delete = false;
 
 	protected $language = null;
 	protected $lang_strings = array();
@@ -97,7 +100,19 @@ class image_CRUD {
 
 		return $this;
 	}
-
+	
+	/**
+	 * Unsets the delete operation from the gallery
+	 *
+	 * @return	void
+	 */
+	public function unset_delete()
+	{
+		$this->unset_delete = true;
+	
+		return $this;
+	}	
+	
 	public function set_css($css_file)
 	{
 		$this->css_files[sha1($css_file)] = base_url().$css_file;
@@ -432,6 +447,7 @@ class image_CRUD {
 						'ordering_url' => $state_info->ordering_url,
 						'primary_key' => $this->primary_key,
 						'title_field' => $this->title_field,
+						'unset_delete' => $this->unset_delete,
 						'has_priority_field' => $this->priority_field !== null ? true : false
 					));
 
@@ -454,6 +470,11 @@ class image_CRUD {
 				break;
 
 				case 'delete_file':
+					if($this->unset_delete)
+					{
+						throw new Exception('This user is not allowed to do this operation', 1);
+						die();
+					}
 					$id = $state_info->id;
 
 					$this->_delete_file($id);
