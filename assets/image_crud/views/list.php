@@ -13,7 +13,9 @@
 ?>
 <script type='text/javascript'>
 $(function(){
+	<?php if(!$unset_upload) {?>
     createUploader();
+    <?php } ?>
     loadFancybox();
 });
 function loadFancybox()
@@ -64,9 +66,9 @@ function createUploader(){
 				action: '<?php echo $upload_url?>',
 				debug: true,
 				onComplete: function(id, fileName, responseJSON){
-        	loadPhotoGallery();
-        }
-    });
+        			loadPhotoGallery();
+        		}
+    		});
 }
 function saveTitle(data_id, data_title)
 {
@@ -87,12 +89,13 @@ function saveTitle(data_id, data_title)
 			});
 }
 </script>
-<div id="file-uploader-demo1" class="floatL upload-button-container"></div>
+<?php if(!$unset_upload){ ?><div id="file-uploader-demo1" class="floatL upload-button-container"></div>
 <div class="file-upload-messages-container hidden">
 	<div class="message-loading"></div>
 	<div class="file-upload-message"></div>
 	<div class="clear"></div>
 </div>
+<?php }?>
 <div class="clear"></div>
 <div id='ajax-list'>
 	<?php if(!empty($photos)){?>

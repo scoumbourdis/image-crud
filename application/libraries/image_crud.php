@@ -1,12 +1,24 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- * Image_CRUD
+/**
+ * Image CRUD
  *
- * @author		John Skoumbourdis
+ * A Codeigniter library that creates an instant photo gallery CRUD automatically with just few lines of code.
  *
- * Copyright (c) 2012 John Skoumbourdis
+ * Copyright (C) 2011 through 2012  John Skoumbourdis. 
+ *
+ * LICENSE
+ *
+ * Image CRUD is released with dual licensing, using the GPL v3 (license-gpl3.txt) and the MIT license (license-mit.txt).
+ * You don't have to do anything special to choose one license or the other and you don't have to notify anyone which license you are using.
+ * Please see the corresponding license file for details of these licenses.
+ * You are free to use, modify and distribute this software, but all copyright information must remain.
+ *
+ * @package    	image CRUD
+ * @copyright  	Copyright (c) 2011 through 2012, John Skoumbourdis
+ * @license    	https://github.com/scoumbourdis/image-crud/blob/master/license-image-crud.txt
+ * @version    	0.5
+ * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
-
 class image_CRUD {
 
 	protected $table_name = null;
@@ -25,6 +37,7 @@ class image_CRUD {
 	
 	/* Unsetters */
 	protected $unset_delete = false;
+	protected $unset_upload = false;
 
 	protected $language = null;
 	protected $lang_strings = array();
@@ -109,6 +122,18 @@ class image_CRUD {
 	public function unset_delete()
 	{
 		$this->unset_delete = true;
+	
+		return $this;
+	}	
+	
+	/**
+	 * Unsets the upload functionality from the gallery
+	 *
+	 * @return	void
+	 */
+	public function unset_upload()
+	{
+		$this->unset_upload = true;
 	
 		return $this;
 	}	
@@ -448,6 +473,7 @@ class image_CRUD {
 						'primary_key' => $this->primary_key,
 						'title_field' => $this->title_field,
 						'unset_delete' => $this->unset_delete,
+						'unset_upload' => $this->unset_upload,
 						'has_priority_field' => $this->priority_field !== null ? true : false
 					));
 
@@ -460,6 +486,12 @@ class image_CRUD {
 				break;
 
 				case 'upload_file':
+					if($this->unset_upload)
+					{
+						throw new Exception('This user is not allowed to do this operation', 1);
+						die();
+					}					
+					
 					$file_name = $state_info->file_name;
 					$this->_upload_file( $this->image_path.'/'.$file_name );
 					$this->_create_thumbnail( $this->image_path.'/'.$file_name , $this->image_path.'/'.$this->thumbnail_prefix.$file_name );

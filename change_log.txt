@@ -1,6 +1,7 @@
 v.0.5
-	Unset Delete functionality
-	Multilingual functionality
+	Unset Upload functionality.
+	Unset Delete functionality.
+	Multilingual functionality.
 	Title functionality for each photo with quick edit.
 	#3 - Generate thumbnails for existing images.
 	#2 - Allow different primary keys than "id".
