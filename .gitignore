@@ -35,6 +35,6 @@ application/models/index.html
 application/third_party/
 application/views/index.html
 application/views/welcome_message.php
-application/views/example.php
+application/views/example2.php
 index.php
 license.txt
