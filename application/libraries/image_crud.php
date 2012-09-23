@@ -479,6 +479,7 @@ class image_CRUD {
 
 					if($state_info->ajax === true)
 					{
+						@ob_end_clean();
 						echo $this->get_layout()->output;
 						die();
 					}
@@ -496,12 +497,14 @@ class image_CRUD {
 					$this->_upload_file( $this->image_path.'/'.$file_name );
 					$this->_create_thumbnail( $this->image_path.'/'.$file_name , $this->image_path.'/'.$this->thumbnail_prefix.$file_name );
 					$this->_insert_table($file_name, $state_info->relation_value);
+					@ob_end_clean();
 					echo json_encode((object)array('success' => true));
 
 					die();
 				break;
 
 				case 'delete_file':
+					@ob_end_clean();
 					if($this->unset_delete)
 					{
 						throw new Exception('This user is not allowed to do this operation', 1);
@@ -515,11 +518,15 @@ class image_CRUD {
 				break;
 
 				case 'ordering':
+					@ob_end_clean();
 					$this->_changing_priority($_POST['photos']);
+					die();
 				break;
 
 				case 'insert_title':
+					@ob_end_clean();
 					$this->_insert_title($_POST['primary_key'],$_POST['value']);
+					die();
 				break;
 			}
 		}
