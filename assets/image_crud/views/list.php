@@ -157,7 +157,7 @@ function saveTitle(data_id, data_title)
 	<?php foreach($photos as $photo_num => $photo){?>
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
-					<a href='<?php echo $photo->image_url?>' <?php if (isset($photo->title)) {echo "title='{$photo->title}' ";}?>target='_blank' class="color-box" rel="color-box" tabindex="-1"><img src='<?php echo $photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<a href='<?php echo $photo->image_url?>' <?php if (isset($photo->title)) {echo 'title="'.$photo->title.'" ';}?>target='_blank' class="color-box" rel="color-box" tabindex="-1"><img src='<?php echo $photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
 					<?php if($title_field !== null){ ?>
 					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>" autocomplete="off" ><?php echo $photo->$title_field; ?></textarea>
 					<div class="clear"></div><?php }?>
