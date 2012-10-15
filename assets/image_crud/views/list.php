@@ -18,8 +18,7 @@ $(function(){
 function loadColorbox()
 {
 	$('.color-box').colorbox({
-		rel: 'color-box',
-		height: '95%'
+		rel: 'color-box'
 	});
 }
 function loadPhotoGallery(){
