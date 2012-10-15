@@ -1,4 +1,6 @@
 v.0.5
+	Added jQuery Colorbox plugin instead of Fancybox.
+	Updating jQuery to v1.8.2 and custom jQuery UI to v1.9.0.
 	Unset Upload functionality.
 	Unset Delete functionality.
 	Multilingual functionality.

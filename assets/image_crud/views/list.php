@@ -1,31 +1,25 @@
 <?php
-	$this->set_js('assets/image_crud/js/jquery-1.7.1.min.js');
-	$this->set_js('assets/image_crud/js/fileuploader.js');
-	$this->set_js('assets/image_crud/js/jquery-ui-1.8.13.custom.min.js');
-	$this->set_js('assets/image_crud/js//jquery.fancybox-1.3.4.pack.js');
-	$this->set_js('assets/image_crud/js/jquery.easing-1.3.pack.js');
-	$this->set_js('assets/image_crud/js/jquery.mousewheel-3.0.4.pack.js');
-
 	$this->set_css('assets/image_crud/css/fileuploader.css');
 	$this->set_css('assets/image_crud/css/photogallery.css');
-	$this->set_css('assets/image_crud/css/ui/jquery-ui-1.8.13.custom.css');
-	$this->set_css('assets/image_crud/css/jquery.fancybox-1.3.4.css');
+	$this->set_css('assets/image_crud/css/colorbox.css');
+
+	$this->set_js('assets/image_crud/js/jquery-1.8.2.min.js');
+	$this->set_js('assets/image_crud/js/jquery-ui-1.9.0.custom.min.js');
+	$this->set_js('assets/image_crud/js/fileuploader.js');
+	$this->set_js('assets/image_crud/js/jquery.colorbox-min.js');
 ?>
-<script type='text/javascript'>
+<script>
 $(function(){
-	<?php if(!$unset_upload) {?>
-    createUploader();
-    <?php } ?>
-    loadFancybox();
+	<?php if ( ! $unset_upload) {?>
+		createUploader();
+	<?php }?>
+		loadColorbox();
 });
-function loadFancybox()
+function loadColorbox()
 {
-	$('.fancybox').fancybox({
-		'transitionIn'	:	'elastic',
-		'transitionOut'	:	'elastic',
-		'speedIn'		:	600,
-		'speedOut'		:	200,
-		'overlayShow'	:	false
+	$('.color-box').colorbox({
+		rel: 'color-box',
+		height: '95%'
 	});
 }
 function loadPhotoGallery(){
@@ -44,7 +38,7 @@ function loadPhotoGallery(){
 		},
 		success: function(data){
 			$('#ajax-list').html(data);
-			loadFancybox();
+			loadColorbox();
 		}
 	});
 }
@@ -118,7 +112,7 @@ function saveTitle(data_id, data_title)
 				}
 				return false;
 			});
-			$(".fancybox img").mousedown(function(){
+			$(".color-box img").mousedown(function(){
 				return false;
 			});
     		$(".photos-crud").sortable({
@@ -163,7 +157,7 @@ function saveTitle(data_id, data_title)
 	<?php foreach($photos as $photo_num => $photo){?>
 			<li id="photos_<?php echo $photo->$primary_key; ?>">
 				<div class='photo-box'>
-					<a href='<?php echo $photo->image_url?>' target='_blank' class="fancybox" rel="fancybox" tabindex="-1"><img src='<?php echo $photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
+					<a href='<?php echo $photo->image_url?>' <?php if (isset($photo->title)) {echo "title='{$photo->title}' ";}?>target='_blank' class="color-box" rel="color-box" tabindex="-1"><img src='<?php echo $photo->thumbnail_url?>' width='90' height='60' class='basic-image' /></a>
 					<?php if($title_field !== null){ ?>
 					<textarea class="ic-title-field" data-id="<?php echo $photo->$primary_key; ?>" autocomplete="off" ><?php echo $photo->$title_field; ?></textarea>
 					<div class="clear"></div><?php }?>
