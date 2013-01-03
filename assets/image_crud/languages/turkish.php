@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lang['upload_button'] = 'Yüklemek için tıklayınız';
+$lang['upload_button'] = 'Yüklemek için tıklayın';
 $lang['upload-drop-area'] = 'Görselleri buraya sürükleyerek yükleyebilirsiniz';
 $lang['upload-cancel'] = 'Kapat';
 $lang['upload-failed'] = 'Hata';
