@@ -260,26 +260,53 @@ class image_CRUD {
 
 	}
 
-	protected function _upload_file($path) {
-        $input = fopen("php://input", "r");
-        $temp = tmpfile();
-        $realSize = stream_copy_to_stream($input, $temp);
-        fclose($input);
+	protected function _upload_file($upload_dir) {
+		
+		$reg_exp = '/(\\.|\\/)(gif|jpeg|jpg|png)$/i';
+		
+		$options = array(
+				'upload_dir' 		=> $upload_dir.'/',
+				'param_name'		=> 'qqfile',
+				'upload_url'		=> base_url().$upload_dir.'/',
+				'accept_file_types' => $reg_exp
+		);
+		$upload_handler = new ImageUploadHandler($options);
+		$uploader_response = $upload_handler->post();
+		
+		if(is_array($uploader_response))
+		{
+			foreach($uploader_response as &$response)
+			{
+				unset($response->delete_url);
+				unset($response->delete_type);
+			}
+			
+			$upload_response = $uploader_response[0];
+		} else {
+			$upload_response = false;
+		}	
+		
+		if (!empty($upload_response)) {
+			$ci = &get_instance();
+			$ci->load->library('image_moo');
+			
+			$filename = $upload_response->name;
+			
+			$path = $upload_dir.'/'.$filename;
+			
+			/* Resizing to 1024 x 768 if its required */
+			list($width, $height) = getimagesize($path);
+			if($width > 1024 || $height > 768)
+			{
+				$ci->image_moo->load($path)->resize(1024,768)->save($path,true);
+			}
+			/* ------------------------------------- */		
 
-        $target = fopen($path, "w");
-        fseek($temp, 0, SEEK_SET);
-        stream_copy_to_stream($temp, $target);
-        fclose($target);
-
-        /* Resizing to 1024 x 768 if its required */
-        	list($width, $height) = getimagesize($path);
-        	if($width > 1024 || $height > 768)
-        	{
-        		$this->image_moo->load($path)->resize(1024,768)->save($path,true);
-        	}
-        /* ------------------------------------- */
-
-        return true;
+			return $filename;
+		} else {
+			return false;
+		}
+       
     }
 
     protected function _changing_priority($post_array)
@@ -493,13 +520,20 @@ class image_CRUD {
 						die();
 					}					
 					
-					$file_name = $state_info->file_name;
-					$this->_upload_file( $this->image_path.'/'.$file_name );
-					$this->_create_thumbnail( $this->image_path.'/'.$file_name , $this->image_path.'/'.$this->thumbnail_prefix.$file_name );
-					$this->_insert_table($file_name, $state_info->relation_value);
-					@ob_end_clean();
-					echo json_encode((object)array('success' => true));
+					$file_name = $this->_upload_file( $this->image_path);
+					
+					if ($file_name !== false) {
+						$this->_create_thumbnail( $this->image_path.'/'.$file_name , $this->image_path.'/'.$this->thumbnail_prefix.$file_name );
+						$this->_insert_table($file_name, $state_info->relation_value);
+						
+						$result = true;
+					} else {
+						$result = false;
+					} 
 
+					@ob_end_clean();
+					echo json_encode((object)array('success' => $result));					
+					
 					die();
 				break;
 

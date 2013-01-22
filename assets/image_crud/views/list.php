@@ -1,11 +1,21 @@
 <?php
-	$this->set_css('assets/image_crud/css/fileuploader.css');
+	$this->set_css('assets/image_crud/css/fineuploader.css');
 	$this->set_css('assets/image_crud/css/photogallery.css');
 	$this->set_css('assets/image_crud/css/colorbox.css');
 
 	$this->set_js('assets/image_crud/js/jquery-1.8.2.min.js');
 	$this->set_js('assets/image_crud/js/jquery-ui-1.9.0.custom.min.js');
-	$this->set_js('assets/image_crud/js/fileuploader.js');
+
+	$this->set_js('assets/image_crud/js/fineuploader/header.js');
+	$this->set_js('assets/image_crud/js/fineuploader/util.js');
+	$this->set_js('assets/image_crud/js/fineuploader/button.js');
+	$this->set_js('assets/image_crud/js/fineuploader/handler.base.js');
+	$this->set_js('assets/image_crud/js/fineuploader/handler.form.js');
+	$this->set_js('assets/image_crud/js/fineuploader/handler.xhr.js');
+	$this->set_js('assets/image_crud/js/fineuploader/uploader.basic.js');
+	$this->set_js('assets/image_crud/js/fineuploader/dnd.js');
+	$this->set_js('assets/image_crud/js/fineuploader/uploader.js');	
+	
 	$this->set_js('assets/image_crud/js/jquery.colorbox-min.js');
 ?>
 <script>
@@ -24,6 +34,7 @@ function loadColorbox()
 function loadPhotoGallery(){
 	$.ajax({
 		url: '<?php echo $ajax_list_url?>',
+		cache: false,
 		dataType: 'text',
 		beforeSend: function()
 		{
@@ -41,28 +52,35 @@ function loadPhotoGallery(){
 		}
 	});
 }
-function createUploader(){
-			var uploader = new qq.FileUploader({
-				element: document.getElementById('file-uploader-demo1'),
-				template: '<div class="qq-uploader">' +
-					'<div class="qq-upload-drop-area"><span><?php echo $this->l("upload-drop-area");?></span></div>' +
-					'<div class="qq-upload-button"><?php echo $this->l("upload_button");?></div>' +
-					'<ul class="qq-upload-list"></ul>' +
-					'</div>',
-				fileTemplate: '<li>' +
-					'<span class="qq-upload-file"></span>' +
-					'<span class="qq-upload-spinner"></span>' +
-					'<span class="qq-upload-size"></span>' +
-					'<a class="qq-upload-cancel" href="#"><?php echo $this->l("upload-cancel");?></a>' +
-					'<span class="qq-upload-failed-text"><?php echo $this->l("upload-failed");?></span>' +
-					'</li>',
-				action: '<?php echo $upload_url?>',
-				debug: true,
-				onComplete: function(id, fileName, responseJSON){
-        			loadPhotoGallery();
-        		}
-    		});
+
+function createUploader() {
+	var uploader = new qq.FineUploader({
+		element: document.getElementById('fine-uploader'),
+		request: {
+			 endpoint: '<?php echo $upload_url?>'
+		},
+		callbacks: {
+			 onComplete: function(id, fileName, responseJSON) {
+				 loadPhotoGallery();
+			 }
+		},
+		debug: true,
+		/*template: '<div class="qq-uploader">' +
+			'<div class="qq-upload-drop-area"><span><?php echo $this->l("upload-drop-area");?></span></div>' +
+			'<div class="qq-upload-button"><?php echo $this->l("upload_button");?></div>' +
+			'<ul class="qq-upload-list"></ul>' +
+			'</div>',
+		fileTemplate: '<li>' +
+			'<span class="qq-upload-file"></span>' +
+			'<span class="qq-upload-spinner"></span>' +
+			'<span class="qq-upload-size"></span>' +
+			'<a class="qq-upload-cancel" href="#"><?php echo $this->l("upload-cancel");?></a>' +
+			'<span class="qq-upload-failed-text"><?php echo $this->l("upload-failed");?></span>' +
+			'</li>',
+*/
+	});
 }
+
 function saveTitle(data_id, data_title)
 {
 	  	$.ajax({
@@ -81,13 +99,17 @@ function saveTitle(data_id, data_title)
 			}
 			});
 }
+
+window.onload = createUploader;
+
 </script>
-<?php if(!$unset_upload){ ?><div id="file-uploader-demo1" class="floatL upload-button-container"></div>
+<?php if(!$unset_upload){ ?><!-- <div id="file-uploader-demo1" class="floatL upload-button-container"></div>
 <div class="file-upload-messages-container hidden">
 	<div class="message-loading"></div>
 	<div class="file-upload-message"></div>
 	<div class="clear"></div>
-</div>
+</div>-->
+<div id="fine-uploader"></div>
 <?php }?>
 <div class="clear"></div>
 <div id='ajax-list'>

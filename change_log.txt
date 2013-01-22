@@ -7,6 +7,7 @@ v.0.5
 	Title functionality for each photo with quick edit.
 	#3 - Generate thumbnails for existing images.
 	#2 - Allow different primary keys than "id".
+	#1 - Doesn't work in internet explorer browser.
 v.0.5 BETA
 	Multiple selection of photos to upload the same time
 	Auto thumbnail croping
