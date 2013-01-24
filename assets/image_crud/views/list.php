@@ -6,15 +6,7 @@
 	$this->set_js('assets/image_crud/js/jquery-1.8.2.min.js');
 	$this->set_js('assets/image_crud/js/jquery-ui-1.9.0.custom.min.js');
 
-	$this->set_js('assets/image_crud/js/fineuploader/header.js');
-	$this->set_js('assets/image_crud/js/fineuploader/util.js');
-	$this->set_js('assets/image_crud/js/fineuploader/button.js');
-	$this->set_js('assets/image_crud/js/fineuploader/handler.base.js');
-	$this->set_js('assets/image_crud/js/fineuploader/handler.form.js');
-	$this->set_js('assets/image_crud/js/fineuploader/handler.xhr.js');
-	$this->set_js('assets/image_crud/js/fineuploader/uploader.basic.js');
-	$this->set_js('assets/image_crud/js/fineuploader/dnd.js');
-	$this->set_js('assets/image_crud/js/fineuploader/uploader.js');	
+	$this->set_js('assets/image_crud/js/fineuploader-3.2.min.js');
 	
 	$this->set_js('assets/image_crud/js/jquery.colorbox-min.js');
 ?>
