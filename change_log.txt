@@ -1,4 +1,4 @@
-v.0.6 BETA
+v.0.6
 	#1 - Doesn't work in internet explorer browser.
 	- Allow only images to upload
 v.0.5
