@@ -51,6 +51,9 @@ function createUploader() {
 		request: {
 			 endpoint: '<?php echo $upload_url?>'
 		},
+		validation: {
+			 allowedExtensions: ['jpeg', 'jpg', 'png', 'gif']
+		},		
 		callbacks: {
 			 onComplete: function(id, fileName, responseJSON) {
 				 loadPhotoGallery();
