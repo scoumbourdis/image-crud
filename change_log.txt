@@ -1,6 +1,6 @@
 v.0.6
 	#1 - Doesn't work in internet explorer browser.
-	- Allow only images to upload
+	Allow only images to upload
 v.0.5
 	Added jQuery Colorbox plugin instead of Fancybox.
 	Updating jQuery to v1.8.2 and custom jQuery UI to v1.9.0.
