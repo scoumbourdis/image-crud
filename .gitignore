@@ -5,6 +5,7 @@ system/
 application/.htaccess
 application/cache/
 assets/uplodas/files/
+assets/uploads/uploads_ignore/
 application/config/migration.php
 application/config/autoload.php
 application/config/config.php
