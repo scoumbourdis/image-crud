@@ -77,6 +77,8 @@ class image_CRUD {
 	function set_primary_key_field($field_name)
 	{
 		$this->primary_key = $field_name;
+
+		return $this;
 	}
 
 	function set_subject($subject)
