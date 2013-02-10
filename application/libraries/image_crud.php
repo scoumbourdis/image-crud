@@ -34,6 +34,9 @@ class image_CRUD {
 	protected $views_as_string = '';
 	protected $css_files = array();
 	protected $js_files = array();
+
+	protected $max_image_width = 1024;
+	protected $max_image_height = 768;
 	
 	/* Unsetters */
 	protected $unset_delete = false;
@@ -77,6 +80,8 @@ class image_CRUD {
 	function set_primary_key_field($field_name)
 	{
 		$this->primary_key = $field_name;
+
+		return $this;
 	}
 
 	function set_subject($subject)
@@ -103,6 +108,13 @@ class image_CRUD {
 	function set_image_path($image_path)
 	{
 		$this->image_path = $image_path;
+
+		return $this;
+	}
+
+	function set_max_image_size($mw = 1024, $mh = 768) {
+		$this->max_image_width = $mw;
+		$this->max_image_height = $mh;
 
 		return $this;
 	}
@@ -296,9 +308,9 @@ class image_CRUD {
 			
 			/* Resizing to 1024 x 768 if its required */
 			list($width, $height) = getimagesize($path);
-			if($width > 1024 || $height > 768)
+			if($width > $this->max_image_width || $height > $this->max_image_height)
 			{
-				$ci->image_moo->load($path)->resize(1024,768)->save($path,true);
+				$ci->image_moo->load($path)->resize($this->max_image_width,$this->max_image_height)->save($path,true);
 			}
 			/* ------------------------------------- */		
 
