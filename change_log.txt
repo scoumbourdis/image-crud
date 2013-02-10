@@ -1,3 +1,5 @@
+v.0.7
+	#14 - Chaining bugfix + New Functionality set max image size.
 v.0.6
 	#1 - Doesn't work in internet explorer browser.
 	Allow only images to upload
