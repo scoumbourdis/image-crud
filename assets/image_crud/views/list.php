@@ -6,8 +6,8 @@
 	$this->set_js('assets/image_crud/js/jquery-1.8.2.min.js');
 	$this->set_js('assets/image_crud/js/jquery-ui-1.9.0.custom.min.js');
 
-	$this->set_js('assets/image_crud/js/fineuploader-3.2.min.js');
-	
+	$this->set_js('assets/image_crud/js/jquery.fineuploader-3.5.0.min.js');
+
 	$this->set_js('assets/image_crud/js/jquery.colorbox-min.js');
 ?>
 <script>
@@ -53,7 +53,7 @@ function createUploader() {
 		},
 		validation: {
 			 allowedExtensions: ['jpeg', 'jpg', 'png', 'gif']
-		},		
+		},
 		callbacks: {
 			 onComplete: function(id, fileName, responseJSON) {
 				 loadPhotoGallery();
