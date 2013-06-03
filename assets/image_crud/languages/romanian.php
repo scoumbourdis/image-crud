@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lang['upload_button'] = 'Incarcare fişier';
-$lang['upload-drop-area'] = 'Fixați fișierele aici pentru a încărca';
+$lang['upload_button'] = 'Încărca fișiere';
+$lang['upload-drop-area'] = 'Trageți fișierele aici pentru a încărca';
 $lang['upload-cancel'] = 'Anuleaza';
-$lang['upload-failed'] = 'Ne reușit';
+$lang['upload-failed'] = 'Încărcare eșuată';
 
-$lang['loading'] = 'Încărcare, vă rog, aşteptaţi...';
-$lang['deleting'] = 'Ştergere, vă rog, aşteptaţi...';
+$lang['loading'] = 'Se încarcă... Vă rugăm să așteptați...';
+$lang['deleting'] = 'Se Şterge... Vă rugăm să așteptați...';
 $lang['saving_title'] = 'Salvare denumire...';
 
 $lang['list_delete'] = 'Ştergeţi';
