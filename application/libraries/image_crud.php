@@ -4,7 +4,7 @@
  *
  * A Codeigniter library that creates an instant photo gallery CRUD automatically with just few lines of code.
  *
- * Copyright (C) 2011 through 2012  John Skoumbourdis. 
+ * Copyright (C) 2011 through 2012  John Skoumbourdis.
  *
  * LICENSE
  *
@@ -26,6 +26,7 @@ class image_CRUD {
 	protected $url_field = 'url';
 	protected $title_field = null;
 	protected $relation_field = null;
+	protected $relation_value = null;
 	protected $subject = 'Record';
 	protected $image_path = '';
 	protected $primary_key = 'id';
@@ -34,10 +35,9 @@ class image_CRUD {
 	protected $views_as_string = '';
 	protected $css_files = array();
 	protected $js_files = array();
+	protected $max_width = 1170;
+	protected $max_height = 800;
 
-	protected $max_image_width = 1024;
-	protected $max_image_height = 768;
-	
 	/* Unsetters */
 	protected $unset_delete = false;
 	protected $unset_upload = false;
@@ -56,6 +56,18 @@ class image_CRUD {
 		$this->ci = &get_instance();
 	}
 
+	function set_max_width($value)
+	{
+		$this->max_width = $value;
+		return $this;
+	}
+
+	function set_max_height($value)
+	{
+		$this->max_height = $value;
+		return $this;
+	}
+
 	function set_table($table_name)
 	{
 		$this->table_name = $table_name;
@@ -70,6 +82,12 @@ class image_CRUD {
 		return $this;
 	}
 
+	function set_relation_value($value)
+	{
+		$this->relation_value = $value;
+		return $this;
+	}
+
 	function set_ordering_field($field_name)
 	{
 		$this->priority_field = $field_name;
@@ -80,8 +98,6 @@ class image_CRUD {
 	function set_primary_key_field($field_name)
 	{
 		$this->primary_key = $field_name;
-
-		return $this;
 	}
 
 	function set_subject($subject)
@@ -112,20 +128,13 @@ class image_CRUD {
 		return $this;
 	}
 
-	function set_max_image_size($mw = 1024, $mh = 768) {
-		$this->max_image_width = $mw;
-		$this->max_image_height = $mh;
-
-		return $this;
-	}
-
 	function set_thumbnail_prefix($prefix)
 	{
 		$this->thumbnail_prefix = $prefix;
 
 		return $this;
 	}
-	
+
 	/**
 	 * Unsets the delete operation from the gallery
 	 *
@@ -134,10 +143,10 @@ class image_CRUD {
 	public function unset_delete()
 	{
 		$this->unset_delete = true;
-	
+
 		return $this;
-	}	
-	
+	}
+
 	/**
 	 * Unsets the upload functionality from the gallery
 	 *
@@ -146,10 +155,10 @@ class image_CRUD {
 	public function unset_upload()
 	{
 		$this->unset_upload = true;
-	
+
 		return $this;
-	}	
-	
+	}
+
 	public function set_css($css_file)
 	{
 		$this->css_files[sha1($css_file)] = base_url().$css_file;
@@ -273,9 +282,9 @@ class image_CRUD {
 	}
 
 	protected function _upload_file($upload_dir) {
-		
+
 		$reg_exp = '/(\\.|\\/)(gif|jpeg|jpg|png)$/i';
-		
+
 		$options = array(
 				'upload_dir' 		=> $upload_dir.'/',
 				'param_name'		=> 'qqfile',
@@ -284,7 +293,7 @@ class image_CRUD {
 		);
 		$upload_handler = new ImageUploadHandler($options);
 		$uploader_response = $upload_handler->post();
-		
+
 		if(is_array($uploader_response))
 		{
 			foreach($uploader_response as &$response)
@@ -292,33 +301,33 @@ class image_CRUD {
 				unset($response->delete_url);
 				unset($response->delete_type);
 			}
-			
+
 			$upload_response = $uploader_response[0];
 		} else {
 			$upload_response = false;
-		}	
-		
+		}
+
 		if (!empty($upload_response)) {
 			$ci = &get_instance();
 			$ci->load->library('image_moo');
-			
+
 			$filename = $upload_response->name;
-			
+
 			$path = $upload_dir.'/'.$filename;
-			
-			/* Resizing to 1024 x 768 if its required */
+
+			/* Resizing to max dimensions */
 			list($width, $height) = getimagesize($path);
-			if($width > $this->max_image_width || $height > $this->max_image_height)
+			if($width > $this->max_width || $height > $this->max_height)
 			{
-				$ci->image_moo->load($path)->resize($this->max_image_width,$this->max_image_height)->save($path,true);
+				$ci->image_moo->load($path)->resize($this->max_width,$this->max_height)->save($path,true);
 			}
-			/* ------------------------------------- */		
+			/* ------------------------------------- */
 
 			return $filename;
 		} else {
 			return false;
 		}
-       
+
     }
 
     protected function _changing_priority($post_array)
@@ -357,8 +366,8 @@ class image_CRUD {
 
     protected function _get_delete_url($value)
     {
-    	$rsegments_array = $this->ci->uri->rsegment_array();
-    	return site_url($rsegments_array[1].'/'.$rsegments_array[2].'/delete_file/'.$value);
+    	$state = $this->getState();
+    	return $state->delete_url . '/' . $value;
     }
 
     protected function _get_photos($relation_value = null)
@@ -409,82 +418,95 @@ class image_CRUD {
 
 	protected function getState()
 	{
-		$rsegments_array = $this->ci->uri->rsegment_array();
+		$rsegments_array = $this->ci->uri->segment_array();
 
-		if(isset($rsegments_array[3]) && is_numeric($rsegments_array[3]))
+		$segment_array = $this->ci->uri->rsegment_array();
+		if ($this->ci->uri->total_segments() > $this->ci->uri->total_rsegments())
 		{
-			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file/'.$rsegments_array[3]);
-			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/'.$rsegments_array[3].'/ajax_list');
-			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
-			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
-
-			$state = array( 'name' => 'list', 'upload_url' => $upload_url, 'relation_value' => $rsegments_array[3]);
-			$state['ajax'] = isset($rsegments_array[4]) && $rsegments_array[4] == 'ajax_list'  ? true : false;
-			$state['ajax_list_url'] = $ajax_list_url;
-			$state['ordering_url'] = $ordering_url;
-			$state['insert_title_url'] = $insert_title_url;
-
-
-			return (object)$state;
+			$segment_array = $this->ci->uri->segment_array();
 		}
-		elseif( (empty($rsegments_array[3]) && empty($this->relation_field)) || (!empty($rsegments_array[3]) &&  $rsegments_array[3] == 'ajax_list'))
+
+		$mystate = array();
+		if (is_numeric($segment_array[count($segment_array)]))
 		{
-			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file');
-			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ajax_list');
-			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
-			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
-
-			$state = array( 'name' => 'list', 'upload_url' => $upload_url);
-			$state['ajax'] = isset($rsegments_array[3]) && $rsegments_array[3] == 'ajax_list'  ? true : false;
-			$state['ajax_list_url'] = $ajax_list_url;
-			$state['ordering_url'] = $ordering_url;
-			$state['insert_title_url'] = $insert_title_url;
-
-			return (object)$state;
+			$base_url = implode('/', array_slice($segment_array, 0, count($segment_array) - 1));
+			$cmd = $segment_array[count($segment_array) - 1];
+			$relation = $segment_array[count($segment_array)];
+			$mystate = array(
+				'name' => 'list',
+				'upload_url' => site_url($base_url . '/upload_file/' . $relation),
+				'delete_url' => site_url($base_url . '/delete_file'),
+				'relation_value' => $relation,
+				'ajax' => ($cmd == 'ajax_list')? TRUE: FALSE,
+				'ajax_list_url' => site_url($base_url . '/ajax_list/' . $relation),
+				'ordering_url' => site_url($base_url . '/ordering'),
+				'insert_title_url' => site_url($base_url . '/insert_title'),
+				);
 		}
-		elseif(isset($rsegments_array[3]) && $rsegments_array[3] == 'upload_file')
+		else
 		{
-			#region Just rename my file
-				$new_file_name = '';
-				//$old_file_name = $this->_to_greeklish($_GET['qqfile']);
-				$old_file_name = $this->_convert_foreign_characters($_GET['qqfile']);
-				$max = strlen($old_file_name);
-				for($i=0; $i< $max;$i++)
+			$base_url = implode('/', array_slice($segment_array, 0, count($segment_array) - 1));
+			$cmd = $segment_array[count($segment_array)];
+			$mystate = array(
+				'name' => 'list',
+				'upload_url' => site_url($base_url . '/upload_file'),
+				'delete_url' => site_url($base_url . '/delete_file'),
+				'ajax' => ($cmd == 'ajax_list')? TRUE: FALSE,
+				'ajax_list_url' => site_url($base_url . '/ajax_list/'),
+				'ordering_url' => site_url($base_url . '/ordering'),
+				'insert_title_url' => site_url($base_url . '/insert_title'),
+				);
+		}
+
+		if (isset($this->relation_value))
+		{
+			$mystate['relation_value'] = $this->relation_value;
+		}
+
+		switch($cmd)
+		{
+			case 'upload_file':
+				#region Just rename my file
+					$new_file_name = '';
+					// $old_file_name = $this->_to_greeklish($_GET['qqfile']);
+					$old_file_name = $this->_convert_foreign_characters($_GET['qqfile']);
+					$max = strlen($old_file_name);
+					for($i=0; $i< $max;$i++)
+					{
+						$numMatches = preg_match('/^[A-Za-z0-9.-_]+$/', $old_file_name[$i], $matches);
+						if($numMatches >0)
+						{
+							$new_file_name .= strtolower($old_file_name[$i]);
+						}
+						else
+						{
+							$new_file_name .= '-';
+						}
+					}
+					$file_name = substr( substr( uniqid(), 9,13).'-'.$new_file_name , 0, 100) ;
+				#endregion
+
+				$results = array( 'name' => 'upload_file', 'file_name' => $file_name);
+				if (isset($mystate))
 				{
-					$numMatches = preg_match('/^[A-Za-z0-9.-_]+$/', $old_file_name[$i], $matches);
-					if($numMatches >0)
-					{
-						$new_file_name .= strtolower($old_file_name[$i]);
-					}
-					else
-					{
-						$new_file_name .= '-';
-					}
+					$results['relation_value'] = $mystate['relation_value'];
 				}
-				$file_name = substr( substr( uniqid(), 9,13).'-'.$new_file_name , 0, 100) ;
-			#endregion
-
-			$results = array( 'name' => 'upload_file', 'file_name' => $file_name);
-			if(isset($rsegments_array[4]) && is_numeric($rsegments_array[4]))
-			{
-				$results['relation_value'] = $rsegments_array[4];
-			}
-			return (object)$results;
-		}
-		elseif(isset($rsegments_array[3]) && isset($rsegments_array[4]) && $rsegments_array[3] == 'delete_file' && is_numeric($rsegments_array[4]))
-		{
-			$state = array( 'name' => 'delete_file', 'id' => $rsegments_array[4]);
-			return (object)$state;
-		}
-		elseif(isset($rsegments_array[3]) && $rsegments_array[3] == 'ordering')
-		{
-			$state = array( 'name' => 'ordering');
-			return (object)$state;
-		}
-		elseif(isset($rsegments_array[3]) && $rsegments_array[3] == 'insert_title')
-		{
-			$state = array( 'name' => 'insert_title');
-			return (object)$state;
+				return (object)$results;
+				break;
+			case 'delete_file':
+				$state = array( 'name' => 'delete_file', 'id' => $segment_array[count($segment_array)]);
+				return (object)$state;
+				break;
+			case 'ordering':
+				$state = array( 'name' => 'ordering');
+				return (object)$state;
+				break;
+			case 'insert_title':
+				$state = array( 'name' => 'insert_title');
+				return (object)$state;
+				break;
+			default:
+				return (object)$mystate;
 		}
 	}
 
@@ -530,22 +552,22 @@ class image_CRUD {
 					{
 						throw new Exception('This user is not allowed to do this operation', 1);
 						die();
-					}					
-					
+					}
+
 					$file_name = $this->_upload_file( $this->image_path);
-					
+
 					if ($file_name !== false) {
 						$this->_create_thumbnail( $this->image_path.'/'.$file_name , $this->image_path.'/'.$this->thumbnail_prefix.$file_name );
 						$this->_insert_table($file_name, $state_info->relation_value);
-						
+
 						$result = true;
 					} else {
 						$result = false;
-					} 
+					}
 
 					@ob_end_clean();
-					echo json_encode((object)array('success' => $result));					
-					
+					echo json_encode((object)array('success' => $result));
+
 					die();
 				break;
 
