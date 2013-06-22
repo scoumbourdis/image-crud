@@ -1,4 +1,2 @@
-image-crud
-==========
-
 Image CRUD
+==========
