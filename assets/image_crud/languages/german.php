@@ -12,5 +12,5 @@ $lang['saving_title'] = 'Titel wird gespeichert...';
 $lang['list_delete'] = 'Löschen';
 $lang['alert_delete'] = 'Diese Bild wirklich löschen?';
 
-/* End of file english.php */
-/* Location: ./assets/image_crud/languages/english.php */
+/* End of file german.php */
+/* Location: ./assets/image_crud/languages/german.php */
