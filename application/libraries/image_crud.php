@@ -362,8 +362,19 @@ class image_CRUD {
 
     protected function _get_delete_url($value)
     {
-    	$rsegments_array = $this->ci->uri->rsegment_array();
-    	return site_url($rsegments_array[1].'/'.$rsegments_array[2].'/delete_file/'.$value);
+        $rsegments_array = $this->ci->uri->rsegment_array();
+        $segments_array = $this->ci->uri->segment_array();
+ 
+        array_pop( $segments_array );
+        if( isset( $segments_array[0] ) )
+            unset( $segments_array[0] );
+ 
+        $subfolders = '';
+        if( isset( $segments_array[1] ) )
+            if( $segments_array[1] !== $rsegments_array[1] )
+                $subfolders = implode( '/', $segments_array ) . '/';
+ 
+        return site_url($subfolders . $rsegments_array[1].'/'.$rsegments_array[2].'/delete_file/'.$value);
     }
 
     protected function _get_photos($relation_value = null)
@@ -391,8 +402,8 @@ class image_CRUD {
     		$results[$num]->delete_url = $this->_get_delete_url($row->{$this->primary_key});
     	}
 
-    	return $results;
-    }
+    		return $results;
+    	}
 
 	protected function _convert_foreign_characters($str_i)
 	{
@@ -415,30 +426,40 @@ class image_CRUD {
 	protected function getState()
 	{
 		$rsegments_array = $this->ci->uri->rsegment_array();
-
+		$segments_array = $this->ci->uri->segment_array();
+		
+		array_pop( $segments_array );
+		if( isset( $segments_array[0] ) )
+		unset( $segments_array[0] );
+		
+		$subfolders = '';
+		if( isset( $segments_array[1] ) )
+		if( $segments_array[1] !== $rsegments_array[1] )
+		$subfolders = implode( '/', $segments_array ) . '/';
+		
 		if(isset($rsegments_array[3]) && is_numeric($rsegments_array[3]))
 		{
-			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file/'.$rsegments_array[3]);
-			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/'.$rsegments_array[3].'/ajax_list');
-			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
-			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
-
+			$upload_url = site_url($subfolders . $rsegments_array[1].'/'.$rsegments_array[2].'/upload_file/'.$rsegments_array[3]);
+			$ajax_list_url  = site_url($subfolders . $rsegments_array[1].'/'.$rsegments_array[2].'/'.$rsegments_array[3].'/ajax_list');
+			$ordering_url  = site_url($subfolders . $rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
+			$insert_title_url  = site_url($subfolders . $rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
+			
 			$state = array( 'name' => 'list', 'upload_url' => $upload_url, 'relation_value' => $rsegments_array[3]);
 			$state['ajax'] = isset($rsegments_array[4]) && $rsegments_array[4] == 'ajax_list'  ? true : false;
 			$state['ajax_list_url'] = $ajax_list_url;
 			$state['ordering_url'] = $ordering_url;
 			$state['insert_title_url'] = $insert_title_url;
-
-
+			
+			
 			return (object)$state;
 		}
 		elseif( (empty($rsegments_array[3]) && empty($this->relation_field)) || (!empty($rsegments_array[3]) &&  $rsegments_array[3] == 'ajax_list'))
 		{
-			$upload_url = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/upload_file');
-			$ajax_list_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ajax_list');
-			$ordering_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/ordering');
-			$insert_title_url  = site_url($rsegments_array[1].'/'.$rsegments_array[2].'/insert_title');
-
+			$upload_url = site_url( $subfolder . $rsegments_array[1].'/'.$rsegments_array[2].'/upload_file' );
+			$ajax_list_url  = site_url( $subfolder . $rsegments_array[1].'/'.$rsegments_array[2].'/ajax_list' );
+			$ordering_url  = site_url( $subfolder . $rsegments_array[1].'/'.$rsegments_array[2].'/ordering' );
+			$insert_title_url  = site_url( $subfolder . $rsegments_array[1].'/'.$rsegments_array[2].'/insert_title' );
+ 
 			$state = array( 'name' => 'list', 'upload_url' => $upload_url);
 			$state['ajax'] = isset($rsegments_array[3]) && $rsegments_array[3] == 'ajax_list'  ? true : false;
 			$state['ajax_list_url'] = $ajax_list_url;
