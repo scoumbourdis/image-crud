@@ -393,18 +393,27 @@ class image_CRUD {
 
     	$thumbnail_url = !empty($this->thumbnail_path) ? $this->thumbnail_path : $this->image_path;
 
+    	$final_results = array();
     	foreach($results as $num => $row)
     	{
-			if ($row->{$this->url_field} && !file_exists($this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field})) {
-				$this->_create_thumbnail($this->image_path.'/'.$row->{$this->url_field}, $this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field});
+    		$image_filename = $row->{$this->url_field};
+
+    		if (empty($image_filename)) {
+    			continue;
+    		}
+
+			if (!file_exists($this->image_path . '/' . $this->thumbnail_prefix . $image_filename)) {
+				$this->_create_thumbnail($this->image_path.'/'.$image_filename, $this->image_path.'/'.$this->thumbnail_prefix . $image_filename);
 			}
 
-    		$results[$num]->image_url = base_url().$this->image_path.'/'.$row->{$this->url_field};
-    		$results[$num]->thumbnail_url = base_url().$this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field};
+    		$results[$num]->image_url = base_url() . $this->image_path . '/' . $image_filename;
+    		$results[$num]->thumbnail_url = base_url() . $this->image_path . '/' . $this->thumbnail_prefix . $image_filename;
     		$results[$num]->delete_url = $this->_get_delete_url($row->{$this->primary_key});
+
+    		$final_results[] = $results[$num];
     	}
 
-    	return $results;
+    	return $final_results;
     }
 
 	protected function _convert_foreign_characters($str_i)
