@@ -1,3 +1,5 @@
+v.0.8
+    #23 - Adding where functionality
 v.0.7
 	#14 - Chaining bugfix + New Functionality set max image size.
 v.0.6
