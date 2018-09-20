@@ -380,6 +380,11 @@ class image_CRUD {
     	{
     		$this->ci->db->order_by($this->priority_field);
     	}
+    	if(!empty($this->where)) {
+			foreach($this->where as $where) {
+				$this->ci->db->where($where[0],$where[1],$where[2]);
+			}
+    	}
     	if(!empty($relation_value))
     	{
     		$this->ci->db->where($this->relation_field, $relation_value);
