@@ -46,6 +46,8 @@ class image_CRUD {
 	protected $lang_strings = array();
 	protected $default_language_path = 'assets/image_crud/languages';
 
+	protected $where = array();
+
 	/**
 	 *
 	 * @var Image_moo
@@ -60,6 +62,12 @@ class image_CRUD {
 	{
 		$this->table_name = $table_name;
 
+		return $this;
+	}
+
+	function where($key, $value = NULL, $escape = TRUE)
+	{
+		$this->where[] = array($key,$value,$escape);
 		return $this;
 	}
 
