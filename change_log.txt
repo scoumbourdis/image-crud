@@ -1,4 +1,5 @@
 v.0.8
+    #41 - When url field is empty we are getting an error
     #23 - Adding where functionality
 v.0.7
 	#14 - Chaining bugfix + New Functionality set max image size.

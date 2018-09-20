@@ -395,7 +395,7 @@ class image_CRUD {
 
     	foreach($results as $num => $row)
     	{
-			if (!file_exists($this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field})) {
+			if (/*$row->{$this->url_field} && */ !file_exists($this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field})) {
 				$this->_create_thumbnail($this->image_path.'/'.$row->{$this->url_field}, $this->image_path.'/'.$this->thumbnail_prefix.$row->{$this->url_field});
 			}
 
