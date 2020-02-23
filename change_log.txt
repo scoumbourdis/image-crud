@@ -1,4 +1,5 @@
 v.0.8
+    Fixing bug notice for PHP 7.4 "the behavior of a parenthesized expressions containing both '.' and '+'/'-' will change in php 8"
     #41 - When url field is empty we are getting an error
     #23 - Adding where functionality
 v.0.7
