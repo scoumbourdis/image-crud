@@ -56,6 +56,11 @@ class image_CRUD {
 
 	function __construct() {
 		$this->ci = &get_instance();
+		
+		$this->ci->config->load('image_crud');
+		
+		$this->thumb_width  = intval($this->ci->config->item('image_crud_default_thumb_width'));
+		$this->thumb_height = intval($this->ci->config->item('image_crud_default_thumb_height'));
 	}
 
 	function set_table($table_name)
@@ -137,6 +142,15 @@ class image_CRUD {
 		$this->thumbnail_prefix = $prefix;
 
 		return $this;
+	}
+	
+	function set_thumbnail_size($width, $height)
+	{
+	  // SET THUMB SIZES; ELSE DEFAULT TO CONFIG SETTINGS
+  	$this->thumb_width  = intval($width) ?: $this->thumb_width;
+  	$this->thumb_height = intval($height) ?: $this->thumb_height;
+    
+    return $this;	
 	}
 
 	/**
@@ -430,7 +444,7 @@ class image_CRUD {
 	{
 		$this->image_moo
 			->load($image_path)
-			->resize_crop(90,60)
+      ->resize_crop($this->thumb_width,$this->thumb_height)
 			->save($thumbnail_path,true);
 	}
 
