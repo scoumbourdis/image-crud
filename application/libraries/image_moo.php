@@ -60,7 +60,7 @@
  * TO DO
  *
  * THANKS
- * Matja for poiting out the save_pa bug (should of tested it!)
+ * MatjaÅ¾ for poiting out the save_pa bug (should of tested it!)
  * Cahva for posting yet another bug in the save_pa (Man I can be silly sometimes!)
  * Cole spotting the resize flaw and providing a fix
  *
@@ -494,7 +494,11 @@ class Image_moo
 			$sy = ($this->height - $calc_height) / 2;
 			$sy2 = $calc_height;
 		}
-
+		/* Nikos Kornarakis FIX for PNG transparency */
+		imagealphablending($this->temp_image, false);
+		imagesavealpha($this->temp_image, true);
+		$color = imagecolorallocatealpha($this->temp_image, 0, 0, 0, 127);
+		imagefilledrectangle($this->temp_image, 0, 0, $this->width, $this->height, $color); 
 		// copy section
 		imagecopyresampled($this->temp_image, $this->main_image, 0, 0, $sx, $sy, $mw, $mh, $sx2, $sy2);
 		return $this;
@@ -556,7 +560,12 @@ class Image_moo
 			$bg = imagecolorallocate($this->temp_image, $col[0], $col[1], $col[2]);
 			imagefilledrectangle($this->temp_image, 0, 0, $tx, $ty, $bg);
 		}
-
+		/* Nikos Kornarakis FIX for PNG transparency */
+		imagealphablending($this->temp_image, false);
+		imagesavealpha($this->temp_image, true);
+		$color = imagecolorallocatealpha($this->temp_image, 0, 0, 0, 127);
+		imagefilledrectangle($this->temp_image, 0, 0, $this->width, $this->height, $color);
+		
 		// copy resized
 		imagecopyresampled($this->temp_image, $this->main_image, $px, $py, 0, 0, $tnw, $tnh, $this->width, $this->height);
 		return $this;
@@ -582,7 +591,11 @@ class Image_moo
 			$this->set_error('Unable to create temp image sized '.$mh.' x '.$mw);
 			return $this;
 		}
-
+		/* Nikos Kornarakis FIX for PNG transparency */
+		imagealphablending($this->temp_image, false);
+		imagesavealpha($this->temp_image, true);
+		$color = imagecolorallocatealpha($this->temp_image, 0, 0, 0, 127);
+		imagefilledrectangle($this->temp_image, 0, 0, $this->width, $this->height, $color); 
 		// copy resized (stethced, proportions not kept);
 		imagecopyresampled($this->temp_image, $this->main_image, 0, 0, 0, 0, $mw, $mh, $this->width, $this->height);
 		return $this;
